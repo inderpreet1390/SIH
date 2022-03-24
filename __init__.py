@@ -12,7 +12,7 @@ from bokeh.models import CustomJS
 from streamlit_bokeh_events import streamlit_bokeh_events
 from inference import predict_image
 import gdown
-from torch.utils.model_zoo import _download_url_to_file
+#from torch.utils.model_zoo import _download_url_to_file
 
 st.set_page_config(layout="wide")
 
