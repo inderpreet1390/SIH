@@ -1,5 +1,5 @@
 import streamlit as st
-from PIL import Image
+from PIL import Image as pil_image
 import glob
 import time
 import requests
@@ -10,8 +10,9 @@ import pydeck as pdk
 from bokeh.models.widgets import Button
 from bokeh.models import CustomJS
 from streamlit_bokeh_events import streamlit_bokeh_events
-from inference import predict_image
 import gdown
+from torchvision import transforms
+import torch
 #from torch.utils.model_zoo import _download_url_to_file
 
 st.set_page_config(layout="wide")
@@ -110,11 +111,32 @@ if(locq):
 st.markdown("""---""")
 #TODO ADD Python inference script
 PATH = r"./infer/acd_123_34.jpg"
-urla = "https://drive.google.com/uc?id=1FJugPyWGPQLhKyVOe4pcSKb1vrDblct5"
+urla = "https://drive.google.com/uc?id=1XXPduWRnUY582hgfiSddQ2wiz5KR-a0j"
 #model_path = r"./model/final_model.ckpt"
-gdown.download(urla, 'final_model.ckpt', quiet = False)
+gdown.download(urla, 'model.pt', quiet = False)
 #_download_url_to_file(urla, 'final_model.ckpt', None, True)
 
-model = PretrainedWindModel.load_from_checkpoint('final_model.ckpt')
-pred = predict_image(sample_image, model)
-st.write(f"Your predicted wind speed is {str(pred)} kts")
+# model = PretrainedWindModel.load_from_checkpoint('final_model.ckpt')
+# pred = predict_image(sample_image, model)
+# st.write(f"Your predicted wind speed is {str(pred)} kts")
+
+
+inp = r"./infer/acd_123_34.jpg"
+image = pil_image.open(inp).convert("RGB")
+test_transforms = transforms.Compose(
+        [
+            transforms.CenterCrop(128),
+            transforms.ToTensor(),
+            # All models expect the same normalization mean & std
+            # https://pytorch.org/docs/stable/torchvision/models.html
+            transforms.Normalize(
+                mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)
+            ),
+        ]
+    )
+image = test_transforms(image)
+image = image.unsqueeze(0)
+
+scripted_module = torch.jit.load("model.pt")
+output = scripted_module(image)
+st.write(f"Your predicted wind speed is {str(output)} kts")
