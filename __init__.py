@@ -114,12 +114,14 @@ st.markdown("""---""")
 PATH = r"./infer/acd_123_34.jpg"
 urla = "https://drive.google.com/uc?id=1XXPduWRnUY582hgfiSddQ2wiz5KR-a0j"
 #model_path = r"./model/final_model.ckpt"
-gdown.download(urla, 'model.pt', quiet = False)
+if not os.path.exist("model.pt"):
+    gdown.download(urla, 'model.pt', quiet = False)
 #_download_url_to_file(urla, 'final_model.ckpt', None, True)
 
 # model = PretrainedWindModel.load_from_checkpoint('final_model.ckpt')
 # pred = predict_image(sample_image, model)
 # st.write(f"Your predicted wind speed is {str(pred)} kts")
+
 
 
 inp = r"./infer/acd_123_34.jpg"
@@ -140,7 +142,8 @@ image = image.unsqueeze(0)
 
 scripted_module = torch.jit.load("model.pt")
 output = scripted_module(image)
+output = output.data.cpu().numpy()
 st.image(inp,caption='Input Image')
 st.write(f"Your predicted wind speed is {str(output)} kts")
 st.write("Your actual wind speed was 34 kts")
-st.metric(label="Wind Speed",value=)
+st.metric(label="Wind Speed",value=str(output))
