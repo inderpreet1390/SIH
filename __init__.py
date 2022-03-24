@@ -115,7 +115,7 @@ st.markdown("""---""")
 PATH = r"./infer/acd_123_34.jpg"
 urla = "https://drive.google.com/uc?id=1XXPduWRnUY582hgfiSddQ2wiz5KR-a0j"
 #model_path = r"./model/final_model.ckpt"
-if not os.path.exist("model.pt"):
+if not os.path.exists("model.pt"):
     gdown.download(urla, 'model.pt', quiet = False)
 #_download_url_to_file(urla, 'final_model.ckpt', None, True)
 
