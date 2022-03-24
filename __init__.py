@@ -1,5 +1,5 @@
 import streamlit as st
-from PIL import Image as pil_image
+from PIL import Image
 import glob
 import time
 import requests
@@ -122,7 +122,7 @@ gdown.download(urla, 'model.pt', quiet = False)
 
 
 inp = r"./infer/acd_123_34.jpg"
-image = pil_image.open(inp).convert("RGB")
+image = Image.open(inp).convert("RGB")
 test_transforms = transforms.Compose(
         [
             transforms.CenterCrop(128),
