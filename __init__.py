@@ -12,6 +12,7 @@ from bokeh.models import CustomJS
 from streamlit_bokeh_events import streamlit_bokeh_events
 from inference import predict_image
 import gdown
+from torch.utils.model_zoo import _download_url_to_file
 
 st.set_page_config(layout="wide")
 
@@ -109,10 +110,11 @@ if(locq):
 st.markdown("""---""")
 #TODO ADD Python inference script
 PATH = r"./infer/acd_123_34.jpg"
-url = "https://drive.google.com/uc?id=1FJugPyWGPQLhKyVOe4pcSKb1vrDblct5"
-model_path = r"./model/final_model.ckpt"
-gdown.download(url, model_path, quiet = False)
+urla = "https://drive.google.com/uc?id=1FJugPyWGPQLhKyVOe4pcSKb1vrDblct5"
+#model_path = r"./model/final_model.ckpt"
+#gdown.download(urla, model_path, quiet = False)
+_download_url_to_file(urla, 'final_model.ckpt', None, True)
 
-model = PretrainedWindModel.load_from_checkpoint(model_path)
+model = PretrainedWindModel.load_from_checkpoint('final_model.ckpt')
 pred = predict_image(sample_image, model)
 st.write(f"Your predicted wind speed is {str(pred)} kts")
