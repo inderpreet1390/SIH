@@ -112,8 +112,8 @@ st.markdown("""---""")
 PATH = r"./infer/acd_123_34.jpg"
 urla = "https://drive.google.com/uc?id=1FJugPyWGPQLhKyVOe4pcSKb1vrDblct5"
 #model_path = r"./model/final_model.ckpt"
-#gdown.download(urla, model_path, quiet = False)
-_download_url_to_file(urla, 'final_model.ckpt', None, True)
+gdown.download(urla, 'final_model.ckpt', quiet = False)
+#_download_url_to_file(urla, 'final_model.ckpt', None, True)
 
 model = PretrainedWindModel.load_from_checkpoint('final_model.ckpt')
 pred = predict_image(sample_image, model)
