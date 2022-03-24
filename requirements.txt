@@ -3,3 +3,4 @@ streamlit==1.7.0
 streamlit-bokeh-events==0.1.2
 torchvision
 pytorch
+gdown
