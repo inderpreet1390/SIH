@@ -109,6 +109,7 @@ if(locq):
     ))
 
 st.markdown("""---""")
+st.markdown("""---""")
 #TODO ADD Python inference script
 PATH = r"./infer/acd_123_34.jpg"
 urla = "https://drive.google.com/uc?id=1XXPduWRnUY582hgfiSddQ2wiz5KR-a0j"
@@ -139,4 +140,7 @@ image = image.unsqueeze(0)
 
 scripted_module = torch.jit.load("model.pt")
 output = scripted_module(image)
+st.image(inp,caption='Input Image')
 st.write(f"Your predicted wind speed is {str(output)} kts")
+st.write("Your actual wind speed was 34 kts")
+st.metric(label="Wind Speed",value=)
