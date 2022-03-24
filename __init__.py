@@ -11,6 +11,7 @@ from bokeh.models.widgets import Button
 from bokeh.models import CustomJS
 from streamlit_bokeh_events import streamlit_bokeh_events
 from inference import predict_image
+import gdown
 
 st.set_page_config(layout="wide")
 
@@ -107,3 +108,11 @@ if(locq):
 
 st.markdown("""---""")
 #TODO ADD Python inference script
+PATH = r"./infer/acd_123_34.jpg"
+url = "https://drive.google.com/uc?id=1FJugPyWGPQLhKyVOe4pcSKb1vrDblct5"
+model_path = r"./model/final_model.ckpt"
+gdown.download(url, output, quiet = False)
+
+model = PretrainedWindModel.load_from_checkpoint(model_path)
+pred = predict_image(sample_image, model)
+st.write(f"Your predicted wind speed is {str(pred)} kts")
