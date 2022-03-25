@@ -65,8 +65,35 @@ if(latlondata):
     ele_json=ele_resp.json()
     st.write("Elevation: "+str(ele_json['results'][0]['elevation']))
 
-
 locq=st.text_input("Or, input location name")
+
+map_loc=st.empty()
+
+df = pd.DataFrame(
+        np.random.randn(1000, 2) / [50, 50] + [28.65, 77.22],
+        columns=['lat', 'lon'])
+map_loc.pydeck_chart(pdk.Deck(
+map_style='mapbox://styles/mapbox/dark-v10',
+initial_view_state=pdk.ViewState(
+    latitude=28.65,
+    longitude=77.22,
+    zoom=12,
+    pitch=50,
+    ),
+    layers=[
+    pdk.Layer(
+        'HexagonLayer',
+        data=df,
+        get_position='[lon, lat]',
+        radius=100,
+        elevation_scale=10,
+        elevation_range=[0, 100],
+        pickable=True,
+        extruded=True,
+        ),
+    ],
+))
+
 if(locq):
     response = requests.get("http://api.openweathermap.org/geo/1.0/direct?q="+locq+"&limit=1&appid=4cc160d504b0aff2ab13074669b93098")
     latlontmp2 = response.json()
@@ -87,7 +114,7 @@ if(locq):
         np.random.randn(1000, 2) / [50, 50] + [lat2, lon2],
         columns=['lat', 'lon'])
 
-    st.pydeck_chart(pdk.Deck(
+    map_loc.pydeck_chart(pdk.Deck(
     map_style='mapbox://styles/mapbox/dark-v10',
     initial_view_state=pdk.ViewState(
         latitude=lat2,
@@ -110,7 +137,7 @@ if(locq):
     ))
 
 st.markdown("""---""")
-st.markdown("""---""")
+
 #TODO ADD Python inference script
 PATH = r"./infer/acd_123_34.jpg"
 urla = "https://drive.google.com/uc?id=1XXPduWRnUY582hgfiSddQ2wiz5KR-a0j"
