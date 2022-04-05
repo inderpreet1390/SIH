@@ -1,6 +1,7 @@
 bokeh==2.4.2
 streamlit==1.7.0
 streamlit-bokeh-events==0.1.2
+click<=8.0.4
 torch
 torchvision
 gdown
