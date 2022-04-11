@@ -29,7 +29,7 @@ for filename in glob.glob('images/*.jpg'):
 
 l=len(image_list)
 
-st.title('Cyclone Vision web portal PROTOTYPE')
+st.title('SIH Internal Hackathon Cyclone Vision Portal')
 
 im_slot=st.empty()
 
@@ -43,7 +43,7 @@ if st.button('PLAY'):
         im_slot.image(image_list[x], caption=cap_list[x])
 
 st.markdown("""---""")
-
+loc_button = Button(label="Click for Your Location")
 loc_button = Button(label="Get Your Location")
 loc_button.js_on_event("button_click", CustomJS(code="""
     navigator.geolocation.getCurrentPosition(
@@ -67,7 +67,8 @@ if(latlondata):
     ele_json=ele_resp.json()
     st.write("Elevation: "+str(ele_json['results'][0]['elevation']))
 
-locq=st.text_input("Or, input location name")
+st.header("Enter location to get elevation")
+locq=st.text_input("Enter Location")
 
 map_loc=st.empty()
 
@@ -210,28 +211,38 @@ if not os.path.exists("model.pt"):
 # pred = predict_image(sample_image, model)
 # st.write(f"Your predicted wind speed is {str(pred)} kts")
 
+#  upload a file in streamlit
+st.header("Predict Cyclone Satellite Image Windspeed")
+inp = st.file_uploader("Upload The Cyclone Satellite Image", type=["jpg", "png"])
+if inp is not None:
+    image = Image.open(io.BytesIO(inp.read())).convert("RGB")
+    # inp = r"./infer/acd_123_34.jpg" 
+    # image = Image.open(inp).convert("RGB")
+    test_transforms = transforms.Compose(
+            [
+                transforms.CenterCrop(128),
+                transforms.ToTensor(),
+                # All models expect the same normalization mean & std
+                # https://pytorch.org/docs/stable/torchvision/models.html
+                transforms.Normalize(
+                    mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)
+                ),
+            ]
+        )
+    image = test_transforms(image)
+    image = image.unsqueeze(0)
 
-
-inp = r"./infer/acd_123_34.jpg"
-image = Image.open(inp).convert("RGB")
-test_transforms = transforms.Compose(
-        [
-            transforms.CenterCrop(128),
-            transforms.ToTensor(),
-            # All models expect the same normalization mean & std
-            # https://pytorch.org/docs/stable/torchvision/models.html
-            transforms.Normalize(
-                mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)
-            ),
-        ]
-    )
-image = test_transforms(image)
-image = image.unsqueeze(0)
-
-scripted_module = torch.jit.load("model.pt")
-output = scripted_module(image)
-output = output.data.squeeze().numpy()
-st.image(inp,caption='Input Image')
-st.write("Your actual wind speed was 34 kts")
-st.metric(label="Predicted Wind Speed",value=str(np.round(output,2)))
+    scripted_module = torch.jit.load("model.pt")
+    output = scripted_module(image)
+    output = output.data.squeeze().numpy()
+    
+    my_bar = st.progress(0)
+    for percent_complete in range(100):
+        time.sleep(0.05)
+        my_bar.progress(percent_complete + 1)
+        
+    c = st.container()
+    c.image(inp,caption='Input Cyclone Image')
+    c.write(f"Actual wind speed was {inp.name.split('.')[0]} kts")
+    c.metric(label="Predicted Wind Speed",value=str(np.round(output,2)) + " kts")
 
