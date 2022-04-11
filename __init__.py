@@ -196,7 +196,7 @@ if st.button('Submit'):
 # ----------------------------------------------------------------------------------------------------------------------------
 
 # ----------------------------------------------Inference script -------------------------------------------------------------
-'''
+
 #TODO ADD Python inference script
 PATH = r"./infer/acd_123_34.jpg"
 urla = "https://drive.google.com/uc?id=1XXPduWRnUY582hgfiSddQ2wiz5KR-a0j"
@@ -233,4 +233,4 @@ output = output.data.squeeze().numpy()
 st.image(inp,caption='Input Image')
 st.write("Your actual wind speed was 34 kts")
 st.metric(label="Predicted Wind Speed",value=str(np.round(output,2)))
-'''
+
