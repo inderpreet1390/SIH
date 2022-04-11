@@ -210,6 +210,10 @@ with open(filename, "rb") as f:
     pdf_display = F'<iframe src="data:application/pdf;base64,{base64_pdf}" width="700" height="1000" type="application/pdf"></iframe>'
     # Displaying File
     st.markdown(pdf_display, unsafe_allow_html=True)
+st.markdown("""
+<embed src="https://drive.google.com/viewerng/
+viewer?embedded=true&url=https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" width="400" height="400">
+""", unsafe_allow_html=True)
 # -------------------------------------------- Alert PDF --------------------------------------------------
     
 # ----------------------------------------------------------------- TEXT Summarizer -------------------------------------------------------
