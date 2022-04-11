@@ -200,17 +200,17 @@ if inp is not None:
 
 # -----------------------------------------------------Alert Pdf---------------------------------------
 st.header("Alert PDF")
-'''
-########## This part is for displaying pdf from local using html embeded or ifram
-filename = 'test.pdf' 
-with open(filename, "rb") as f:
-    base64_pdf = base64.b64encode(f.read()).decode('utf-8')
-    # Embedding PDF in HTML
-#   pdf_display = F'<center><embed src="data:application/pdf;base64,{base64_pdf}" width="400" height="500" type="application/pdf"></center>'
-    pdf_display = F'<iframe src="data:application/pdf;base64,{base64_pdf}" width="700" height="1000" type="application/pdf"></iframe>'
-    # Displaying File
-    st.markdown(pdf_display, unsafe_allow_html=True)
-'''
+
+####################################### This part is for displaying pdf from local using html embeded or ifram
+# filename = 'test.pdf' 
+# with open(filename, "rb") as f:
+#     base64_pdf = base64.b64encode(f.read()).decode('utf-8')
+#     # Embedding PDF in HTML
+# #   pdf_display = F'<center><embed src="data:application/pdf;base64,{base64_pdf}" width="400" height="500" type="application/pdf"></center>'
+#     pdf_display = F'<iframe src="data:application/pdf;base64,{base64_pdf}" width="700" height="1000" type="application/pdf"></iframe>'
+#     # Displaying File
+#     st.markdown(pdf_display, unsafe_allow_html=True)
+####################################### This part is for displaying pdf from local using html embeded or ifram
 
 pdf_link = "https://github.com/inderpreet1390/SIH/raw/main/test.pdf"
 pdf_display = F'<center><embed src="https://drive.google.com/viewerng/viewer?embedded=true&url={pdf_link}" width="400" height="400"></center>'
