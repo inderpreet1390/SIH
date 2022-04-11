@@ -232,7 +232,7 @@ _min_length = 12
 _max_length = 128
 _early_stopping = True
 
-text = st.text_area('Text Input')
+# text = st.text_area('Text Input')
 
 def run_model(input_text):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -273,9 +273,14 @@ def run_model(input_text):
         output = [t5_tokenizer.decode(g, skip_special_tokens=True, clean_up_tokenization_spaces=False) for g in summary_ids]
         st.write('Summary')
         st.success(output[0])
-
-
-if st.button('Submit'):
-    run_model(text)
+# convert pdf link to text 
+file_pdf = urllib.request.urlopen(pdf_link)
+reader = PyPDF2.pdf.PdfFileReader(io.BytesIO(file_pdf.read()))
+pdfdata=""
+for datas in reader.pages:
+    pdfdata += datas.extractText()
+    
+if st.button('Suumarize'):
+    run_model(pdfdata)
 # ----------------------------------------------------------------------------------------------------------------------------
 
