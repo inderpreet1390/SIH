@@ -277,7 +277,7 @@ pdfdata=""
 for datas in reader.pages:
     pdfdata += datas.extractText()
     
-if st.button('Suumarize'):
+if st.button('Summarize'):
     run_model(pdfdata)
 # ----------------------------------------------------------------------------------------------------------------------------
 
