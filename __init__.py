@@ -43,8 +43,8 @@ if st.button('PLAY'):
         im_slot.image(image_list[x], caption=cap_list[x])
 
 st.markdown("""---""")
+st.header('Get Elevation for Your Location')
 loc_button = Button(label="Click for Your Location")
-loc_button = Button(label="Get Your Location")
 loc_button.js_on_event("button_click", CustomJS(code="""
     navigator.geolocation.getCurrentPosition(
         (loc) => {
