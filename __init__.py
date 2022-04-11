@@ -141,6 +141,72 @@ if(locq):
 
 st.markdown("""---""")
 
+
+
+# ----------------------------------------------Inference script -------------------------------------------------------------
+
+#TODO ADD Python inference script
+PATH = r"./infer/acd_123_34.jpg"
+urla = "https://drive.google.com/uc?id=1XXPduWRnUY582hgfiSddQ2wiz5KR-a0j"
+#model_path = r"./model/final_model.ckpt"
+if not os.path.exists("model.pt"):
+    gdown.download(urla, 'model.pt', quiet = False)
+#_download_url_to_file(urla, 'final_model.ckpt', None, True)
+
+# model = PretrainedWindModel.load_from_checkpoint('final_model.ckpt')
+# pred = predict_image(sample_image, model)
+# st.write(f"Your predicted wind speed is {str(pred)} kts")
+
+#  upload a file in streamlit
+st.header("Predict Cyclone Satellite Image Windspeed")
+inp = st.file_uploader("Upload The Cyclone Satellite Image", type=["jpg", "png"])
+if inp is not None:
+    image = Image.open(io.BytesIO(inp.read())).convert("RGB")
+    # inp = r"./infer/acd_123_34.jpg" 
+    # image = Image.open(inp).convert("RGB")
+    test_transforms = transforms.Compose(
+            [
+                transforms.CenterCrop(128),
+                transforms.ToTensor(),
+                # All models expect the same normalization mean & std
+                # https://pytorch.org/docs/stable/torchvision/models.html
+                transforms.Normalize(
+                    mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)
+                ),
+            ]
+        )
+    image = test_transforms(image)
+    image = image.unsqueeze(0)
+
+    scripted_module = torch.jit.load("model.pt")
+    output = scripted_module(image)
+    output = output.data.squeeze().numpy()
+    
+    my_bar = st.progress(0)
+    for percent_complete in range(100):
+        time.sleep(0.05)
+        my_bar.progress(percent_complete + 1)
+        
+    c = st.container()
+    c.image(inp,caption='Input Cyclone Image')
+    c.write(f"Actual wind speed was {inp.name.split('.')[0]} kts")
+    c.metric(label="Predicted Wind Speed",value=str(np.round(output,2)) + " kts")
+    
+# --------------------------------------------------------------------------------------------------------------------------------
+
+# -----------------------------------------------------Alert Pdf---------------------------------------
+st.header("Alert PDF")
+filename = 'test.pdf' 
+
+
+with open(filename, "rb") as f:
+    base64_pdf = base64.b64encode(f.read()).decode('utf-8')
+    # Embedding PDF in HTML
+    pdf_display = F'<center><embed src="data:application/pdf;base64,{base64_pdf}" width="400" height="500" type="application/pdf"></center>'
+    # Displaying File
+    st.markdown(pdf_display, unsafe_allow_html=True)
+# -------------------------------------------- Alert PDF --------------------------------------------------
+    
 # ----------------------------------------------------------------- TEXT Summarizer -------------------------------------------------------
 model = 'BART'
 _num_beams = 4
@@ -196,53 +262,4 @@ def run_model(input_text):
 if st.button('Submit'):
     run_model(text)
 # ----------------------------------------------------------------------------------------------------------------------------
-
-# ----------------------------------------------Inference script -------------------------------------------------------------
-
-#TODO ADD Python inference script
-PATH = r"./infer/acd_123_34.jpg"
-urla = "https://drive.google.com/uc?id=1XXPduWRnUY582hgfiSddQ2wiz5KR-a0j"
-#model_path = r"./model/final_model.ckpt"
-if not os.path.exists("model.pt"):
-    gdown.download(urla, 'model.pt', quiet = False)
-#_download_url_to_file(urla, 'final_model.ckpt', None, True)
-
-# model = PretrainedWindModel.load_from_checkpoint('final_model.ckpt')
-# pred = predict_image(sample_image, model)
-# st.write(f"Your predicted wind speed is {str(pred)} kts")
-
-#  upload a file in streamlit
-st.header("Predict Cyclone Satellite Image Windspeed")
-inp = st.file_uploader("Upload The Cyclone Satellite Image", type=["jpg", "png"])
-if inp is not None:
-    image = Image.open(io.BytesIO(inp.read())).convert("RGB")
-    # inp = r"./infer/acd_123_34.jpg" 
-    # image = Image.open(inp).convert("RGB")
-    test_transforms = transforms.Compose(
-            [
-                transforms.CenterCrop(128),
-                transforms.ToTensor(),
-                # All models expect the same normalization mean & std
-                # https://pytorch.org/docs/stable/torchvision/models.html
-                transforms.Normalize(
-                    mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)
-                ),
-            ]
-        )
-    image = test_transforms(image)
-    image = image.unsqueeze(0)
-
-    scripted_module = torch.jit.load("model.pt")
-    output = scripted_module(image)
-    output = output.data.squeeze().numpy()
-    
-    my_bar = st.progress(0)
-    for percent_complete in range(100):
-        time.sleep(0.05)
-        my_bar.progress(percent_complete + 1)
-        
-    c = st.container()
-    c.image(inp,caption='Input Cyclone Image')
-    c.write(f"Actual wind speed was {inp.name.split('.')[0]} kts")
-    c.metric(label="Predicted Wind Speed",value=str(np.round(output,2)) + " kts")
 
