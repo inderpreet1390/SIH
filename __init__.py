@@ -44,7 +44,7 @@ im_slot.image(image_list[t], caption=cap_list[t])
 
 if st.button('PLAY'):
     for x in range(l):
-        time.sleep(.5)
+        time.sleep(1)
         im_slot.image(image_list[x], caption=cap_list[x])
 
 st.markdown("""---""")
