@@ -16,6 +16,10 @@ from torchvision import transforms
 import torch
 from transformers import BartTokenizer, BartForConditionalGeneration
 from transformers import T5Tokenizer, T5ForConditionalGeneration
+
+import io
+import base64
+import urllib.request
 #from torch.utils.model_zoo import _download_url_to_file
 
 # st.set_page_config(layout="wide")
