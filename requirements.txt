@@ -6,4 +6,4 @@ torch
 torchvision
 gdown
 transformers
-PyPDF2
+PyPDF4
