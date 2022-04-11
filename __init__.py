@@ -34,7 +34,7 @@ for filename in glob.glob('images/*.jpg'):
 
 l=len(image_list)
 
-st.title('SIH Internal Hackathon Cyclone Vision Portal')
+st.title('Cyclone Vision Portal')
 
 im_slot=st.empty()
 
