@@ -200,7 +200,7 @@ if inp is not None:
 # --------------------------------------------------------------------------------------------------------------------------------
 
 # -----------------------------------------------------Alert Pdf---------------------------------------
-st.header("Alert PDF")
+st.header("Official Alerts")
 
 ####################################### This part is for displaying pdf from local using html embeded or ifram
 # filename = 'test.pdf' 
