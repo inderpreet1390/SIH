@@ -20,6 +20,7 @@ from transformers import T5Tokenizer, T5ForConditionalGeneration
 import io
 import base64
 import urllib.request
+import PyPDF2
 #from torch.utils.model_zoo import _download_url_to_file
 
 # st.set_page_config(layout="wide")
@@ -216,10 +217,6 @@ pdf_link = "https://github.com/inderpreet1390/SIH/raw/main/test.pdf"
 pdf_display = F'<center><embed src="https://drive.google.com/viewerng/viewer?embedded=true&url={pdf_link}" width="400" height="400"></center>'
 # Displaying File
 st.markdown(pdf_display, unsafe_allow_html=True)
-st.markdown("""
-<embed src="https://drive.google.com/viewerng/
-viewer?embedded=true&url=https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" width="400" height="400">
-""", unsafe_allow_html=True)
     
 # -------------------------------------------- Alert PDF --------------------------------------------------
     
