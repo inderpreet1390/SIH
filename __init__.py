@@ -21,6 +21,8 @@ import io
 import base64
 import urllib.request
 import PyPDF4
+import streamlit.components.v1 as components
+
 #from torch.utils.model_zoo import _download_url_to_file
 
 # st.set_page_config(layout="wide")
@@ -48,7 +50,7 @@ if st.button('PLAY'):
         time.sleep(1)
         im_slot.image(image_list[x], caption=cap_list[x])
 
-st.markdown("""---""")
+components.html("""<hr style="height:10px;border:none;color:#333;background-color:#333;" /> """)
 st.header('Get Elevation for Your Location')
 loc_button = Button(label="Click for Your Location")
 loc_button.js_on_event("button_click", CustomJS(code="""
@@ -145,7 +147,7 @@ if(locq):
         ],
     ))
 
-st.markdown("""---""")
+components.html("""<hr style="height:10px;border:none;color:#333;background-color:#333;" /> """)
 
 
 
@@ -201,7 +203,7 @@ if inp is not None:
 # --------------------------------------------------------------------------------------------------------------------------------
 
 # -----------------------------------------------------Alert Pdf---------------------------------------
-st.markdown("""---""")
+components.html("""<hr style="height:10px;border:none;color:#333;background-color:#333;" /> """)
 st.header("Official Alerts")
 
 ####################################### This part is for displaying pdf from local using html embeded or ifram
