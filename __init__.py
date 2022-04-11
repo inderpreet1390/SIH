@@ -18,7 +18,7 @@ from transformers import BartTokenizer, BartForConditionalGeneration
 from transformers import T5Tokenizer, T5ForConditionalGeneration
 #from torch.utils.model_zoo import _download_url_to_file
 
-st.set_page_config(layout="wide")
+# st.set_page_config(layout="wide")
 
 image_list = []
 cap_list=[]
