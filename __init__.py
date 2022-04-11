@@ -206,7 +206,8 @@ filename = 'test.pdf'
 with open(filename, "rb") as f:
     base64_pdf = base64.b64encode(f.read()).decode('utf-8')
     # Embedding PDF in HTML
-    pdf_display = F'<center><embed src="data:application/pdf;base64,{base64_pdf}" width="400" height="500" type="application/pdf"></center>'
+#     pdf_display = F'<center><embed src="data:application/pdf;base64,{base64_pdf}" width="400" height="500" type="application/pdf"></center>'
+    pdf_display = F'<center><iframe src="data:application/pdf;base64,{base64_pdf}" width="700" height="1000" type="application/pdf"></iframe></center>'
     # Displaying File
     st.markdown(pdf_display, unsafe_allow_html=True)
 # -------------------------------------------- Alert PDF --------------------------------------------------
