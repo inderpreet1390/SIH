@@ -34,7 +34,8 @@ for filename in glob.glob('images/*.jpg'):
 
 l=len(image_list)
 
-st.title('Cyclone Vision Portal')
+#st.title('Cyclone Vision Portal')
+st.title("<h1 style='text-align: center;'>Cyclone Vision Portal</h1>", unsafe_allow_html=True)
 
 im_slot=st.empty()
 
