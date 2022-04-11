@@ -278,6 +278,8 @@ for datas in reader.pages:
     pdfdata += datas.extractText()
     
 if st.button('Summarize'):
+    st.write(pdfdata)
+    st.write(pdfdata[:1024])
     run_model(pdfdata)
 # ----------------------------------------------------------------------------------------------------------------------------
 
