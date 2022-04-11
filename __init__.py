@@ -20,7 +20,7 @@ from transformers import T5Tokenizer, T5ForConditionalGeneration
 import io
 import base64
 import urllib.request
-import PyPDF2
+import PyPDF4
 #from torch.utils.model_zoo import _download_url_to_file
 
 # st.set_page_config(layout="wide")
@@ -272,14 +272,16 @@ def run_model(input_text):
         st.success(output[0])
 # convert pdf link to text 
 file_pdf = urllib.request.urlopen(pdf_link)
-reader = PyPDF2.pdf.PdfFileReader(io.BytesIO(file_pdf.read()))
-pdfdata=""
-for datas in reader.pages:
-    pdfdata += datas.extractText()
+pdfdata = ""
+reader = PyPDF4.PdfFileReader(io.BytesIO(file_pdf.read()))
+
+for i in range(reader.numPages):
+    page = reader.getPage(i)
+    page_text = page.extractText()
+    for line in page_text.split('\n'):
+        pdfdata += line.strip(' ')
     
 if st.button('Summarize'):
-    st.write(pdfdata)
-    st.write(pdfdata[:1024])
     run_model(pdfdata)
 # ----------------------------------------------------------------------------------------------------------------------------
 
