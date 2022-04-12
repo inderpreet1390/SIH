@@ -73,7 +73,7 @@ latlondata = streamlit_bokeh_events(
 if(latlondata):
     lat1=latlondata['GET_LOCATION']['lat']
     lon1=latlondata['GET_LOCATION']['lon']
-    st.write("Latitude: "+str(lat1)[0:3]+(len(str(lat1))-3*"x"), Longitude: "+str(lon1)[0:3]+"+(len(str(lon1))-3*"x"))
+    st.write("Latitude: "+str(lat1), "Longitude: "+str(lon1))
     ele_resp=requests.get("https://api.opentopodata.org/v1/test-dataset?locations="+str(int(lat1))+","+str(int(lon1)))
     ele_json=ele_resp.json()
     st.write("Elevation: "+str(ele_json['results'][0]['elevation']))
