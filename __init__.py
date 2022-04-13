@@ -75,7 +75,7 @@ if(latlondata):
     lon1=latlondata['GET_LOCATION']['lon']
     lat1x=str(lat1)[0:3]+((len(str(lat1))-3)*'x')
     lon1x=str(lon1)[0:3]+((len(str(lon1))-3)*'x')
-    st.write("Latitude: "+lat1x), "Longitude: "+lon1x)
+    st.write("Latitude: "+lat1x, "Longitude: "+lon1x)
     ele_resp=requests.get("https://api.opentopodata.org/v1/test-dataset?locations="+str(int(lat1))+","+str(int(lon1)))
     ele_json=ele_resp.json()
     st.write("Elevation: "+str(ele_json['results'][0]['elevation']))
